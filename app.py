@@ -2,10 +2,13 @@
 
 from flask import Flask
 
+from database.repository import get_profile, initialize_database
+
 
 def create_app() -> Flask:
     """Create and configure the Flask application."""
     app = Flask(__name__)
+    initialize_database()
 
     @app.get("/")
     def home() -> dict[str, str]:
@@ -14,12 +17,8 @@ def create_app() -> Flask:
 
     @app.get("/about")
     def about() -> dict[str, str]:
-        """Return a short professional profile."""
-        return {
-            "name": "Kian Wilson",
-            "course": "Computing",
-            "career_goal": "Cloud Engineer",
-        }
+        """Return the professional profile stored in the database."""
+        return get_profile()
 
     return app
 
