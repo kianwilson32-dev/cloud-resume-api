@@ -14,6 +14,7 @@ This project is deliberately built in small versions. The first version provides
 - `GET /about` professional-profile endpoint backed by SQLite
 - `PUT /about` endpoint with JSON validation
 - Automated tests with pytest
+- Static analysis with Ruff
 - Docker container support
 - GitHub Actions continuous integration
 - Dependency management with `requirements.txt`
@@ -94,6 +95,12 @@ The API uses `pytest` for automated tests. The tests use a temporary SQLite data
 .\venv\Scripts\python.exe -m pytest
 ```
 
+Run the static checks with:
+
+```powershell
+.\venv\Scripts\python.exe -m ruff check .
+```
+
 ## Run with Docker
 
 After installing Docker Desktop, build and run the production-style container:
@@ -107,7 +114,7 @@ The API will then be available at `http://127.0.0.1:5000/`.
 
 ## Continuous integration
 
-Every push and pull request runs the test suite and builds the Docker image through GitHub Actions. This catches broken changes before deployment.
+Every push and pull request checks code quality, runs the test suite, and builds the Docker image through GitHub Actions. This catches broken changes before deployment.
 
 ## Roadmap
 

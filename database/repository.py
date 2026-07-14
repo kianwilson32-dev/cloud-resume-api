@@ -1,8 +1,6 @@
 """SQLite persistence functions for the Cloud Resume API."""
-
 import sqlite3
 from pathlib import Path
-
 
 DATABASE_PATH = Path(__file__).parent / "database.db"
 
@@ -57,7 +55,11 @@ def update_profile(profile: dict[str, str]) -> dict[str, str]:
             SET name = ?, course = ?, career_goal = ?
             WHERE id = 1
             """,
-            (profile["name"].strip(), profile["course"].strip(), profile["career_goal"].strip()),
+            (
+                profile["name"].strip(),
+                profile["course"].strip(),
+                profile["career_goal"].strip(),
+            ),
         )
 
     if result.rowcount != 1:
