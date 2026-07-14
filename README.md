@@ -18,6 +18,7 @@ This project is deliberately built in small versions. The first version provides
 | --- | --- | --- |
 | `GET` | `/` | Returns a welcome message. |
 | `GET` | `/about` | Returns a short professional profile. |
+| `PUT` | `/about` | Replaces the stored professional profile. |
 
 ## Run locally
 
@@ -53,10 +54,26 @@ On its first run, the API creates `database/database.db` and adds a profile reco
 
 The database file is intentionally excluded from Git so that local data is never committed. Its schema and setup logic are version-controlled in `database/repository.py`.
 
+## Update the profile
+
+Use PowerShell to update the profile with a JSON request:
+
+```powershell
+$profile = @{
+    name = "Kian Wilson"
+    course = "Computing"
+    career_goal = "Cloud Engineer"
+} | ConvertTo-Json
+
+Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:5000/about" -ContentType "application/json" -Body $profile
+```
+
+The API requires all three non-empty fields. Afterwards, use `GET /about` to see the updated data.
+
 ## Roadmap
 
 - [x] Add SQLite persistence
-- [ ] Add CRUD API endpoints
+- [ ] Add the remaining CRUD API endpoints
 - [ ] Add automated tests with pytest
 - [ ] Containerize with Docker
 - [ ] Add GitHub Actions CI

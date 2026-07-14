@@ -46,3 +46,21 @@ def get_profile() -> dict[str, str]:
         raise RuntimeError("The profile has not been initialized.")
 
     return dict(profile)
+
+
+def update_profile(profile: dict[str, str]) -> dict[str, str]:
+    """Replace the stored profile and return the updated data."""
+    with get_connection() as connection:
+        result = connection.execute(
+            """
+            UPDATE profile
+            SET name = ?, course = ?, career_goal = ?
+            WHERE id = 1
+            """,
+            (profile["name"].strip(), profile["course"].strip(), profile["career_goal"].strip()),
+        )
+
+    if result.rowcount != 1:
+        raise RuntimeError("The profile could not be updated.")
+
+    return get_profile()
