@@ -1,5 +1,7 @@
 # Cloud Resume API
 
+[![Continuous Integration](https://github.com/kianwilson32-dev/cloud-resume-api/actions/workflows/ci.yml/badge.svg)](https://github.com/kianwilson32-dev/cloud-resume-api/actions/workflows/ci.yml)
+
 A Flask REST API that will evolve into the backend for my cloud-hosted resume.
 
 This project is deliberately built in small versions. The first version provides two JSON endpoints; later versions will add a database, automated tests, Docker, CI/CD, Azure deployment, infrastructure as code, and monitoring.
@@ -10,7 +12,20 @@ This project is deliberately built in small versions. The first version provides
 - JSON responses
 - `GET /` welcome endpoint
 - `GET /about` professional-profile endpoint backed by SQLite
+- `PUT /about` endpoint with JSON validation
+- Automated tests with pytest
+- Docker container support
+- GitHub Actions continuous integration
 - Dependency management with `requirements.txt`
+
+## Architecture
+
+```mermaid
+flowchart LR
+    Browser[Web browser or API client] -->|HTTP / JSON| API[Flask API]
+    API -->|SQL| DB[(SQLite database)]
+    GitHub[GitHub Actions] -->|tests and container build| API
+```
 
 ## API endpoints
 
@@ -75,17 +90,32 @@ The API requires all three non-empty fields. Afterwards, use `GET /about` to see
 The API uses `pytest` for automated tests. The tests use a temporary SQLite database, so they do not change your local profile.
 
 ```powershell
-.\venv\Scripts\python.exe -m pip install -r requirements.txt
+.\venv\Scripts\python.exe -m pip install -r requirements-dev.txt
 .\venv\Scripts\python.exe -m pytest
 ```
+
+## Run with Docker
+
+After installing Docker Desktop, build and run the production-style container:
+
+```powershell
+docker build -t cloud-resume-api .
+docker run --rm -p 5000:5000 cloud-resume-api
+```
+
+The API will then be available at `http://127.0.0.1:5000/`.
+
+## Continuous integration
+
+Every push and pull request runs the test suite and builds the Docker image through GitHub Actions. This catches broken changes before deployment.
 
 ## Roadmap
 
 - [x] Add SQLite persistence
 - [ ] Add the remaining CRUD API endpoints
 - [x] Add automated tests with pytest
-- [ ] Containerize with Docker
-- [ ] Add GitHub Actions CI
+- [x] Containerize with Docker
+- [x] Add GitHub Actions CI
 - [ ] Deploy to Azure App Service
 - [ ] Move data to Azure SQL or Cosmos DB
 - [ ] Provision infrastructure with Terraform or Bicep
