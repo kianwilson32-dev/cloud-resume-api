@@ -70,11 +70,20 @@ Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:5000/about" -ContentType "a
 
 The API requires all three non-empty fields. Afterwards, use `GET /about` to see the updated data.
 
+## Automated tests
+
+The API uses `pytest` for automated tests. The tests use a temporary SQLite database, so they do not change your local profile.
+
+```powershell
+.\venv\Scripts\python.exe -m pip install -r requirements.txt
+.\venv\Scripts\python.exe -m pytest
+```
+
 ## Roadmap
 
 - [x] Add SQLite persistence
 - [ ] Add the remaining CRUD API endpoints
-- [ ] Add automated tests with pytest
+- [x] Add automated tests with pytest
 - [ ] Containerize with Docker
 - [ ] Add GitHub Actions CI
 - [ ] Deploy to Azure App Service
